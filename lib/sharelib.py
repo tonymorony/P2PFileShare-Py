@@ -27,13 +27,13 @@ class CustomProxy(slickrpc.Proxy):
         self.conn = self.prepare_connection(config, timeout=timeout)
 
 
-# that's temporary stub to not take control during file uploading
+# TODO: that's temporary stub to not take control during file uploading
 class FileUploadingProxy(slickrpc.Proxy):
     def __init__(self,
                  service_url=None,
                  service_port=None,
                  conf_file=None,
-                 timeout=2):
+                 timeout=1):
         config = dict()
         if conf_file:
             config = slickrpc.ConfigObj(conf_file)
@@ -90,6 +90,7 @@ def select_file(file_path_var):
 
 
 # TODO: progress bar stop to update if user upload >1 file per session
+# upd: it's actual on Linux only - on Windows works like a charm
 def upload_file(file_path, rpc_proxy, uploading_delta):
     path_string = file_path.get()
     operating_system = platform.system()
