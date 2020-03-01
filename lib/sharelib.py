@@ -92,17 +92,25 @@ def select_file(file_path_var):
 # TODO: progress bar stop to update if user upload >1 file per session
 def upload_file(file_path, rpc_proxy, uploading_delta):
     path_string = file_path.get()
+    operating_system = platform.system()
     file_name = path_string.split("/")[-1:][0]
     # copying file to temp directory
-    # TODO: different directory for Windows
-    try:
-        shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
-    except FileNotFoundError:
-        # TODO: it's quite tricky now if not script executor now owner of /usr/bin
-        os.mkdir("/usr/local/dexp2p/")
-        shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
+    if operating_system == 'Win64' or operating_system == 'Windows':
+        print(file_name)
+        try:
+            shutil.copyfile(path_string, os.getenv('APPDATA') + "/dexp2p/" + file_name)
+        except FileNotFoundError:
+            os.mkdir(os.getenv('APPDATA') + "/dexp2p")
+            shutil.copyfile(path_string, os.getenv('APPDATA') + "/dexp2p/" + file_name)
+    else:
+        try:
+            shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
+        except FileNotFoundError:
+            # TODO: it's quite tricky now if not script executor now owner of /usr/bin
+            os.mkdir("/usr/local/dexp2p/")
+            shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
     print("Uploading file " + path_string)
-    rpc_proxy.DEX_publish(file_name)
+    print(rpc_proxy.DEX_publish(file_name))
     # TODO: removing file from temp dir after successful uploading - now it non-det because we not tracking uploading finishing
     # os.remove('/usr/local/dexp2p/'+file_name)
     # uploading_delta.set(0.0)

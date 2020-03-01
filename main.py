@@ -28,8 +28,6 @@ def update_progress_bar():
     root.after(100, update_progress_bar)
 
 
-# gui thread
-
 root = tk.Tk()
 root.title("DEXP2P fileshare GUI")
 root.geometry("1200x720")
@@ -46,8 +44,6 @@ file_select_button = tk.Button(root, text="Choose file to upload",
                                command=lambda: sharelib.select_file(file_path_var))
 file_upload_button = tk.Button(root, text="Upload selected file",
                                command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy, previous_uploading_progress))
-
-
 
 
 file_select_button.pack()
