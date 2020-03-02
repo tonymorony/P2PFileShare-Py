@@ -37,9 +37,9 @@ def update_files_list(files_table, update_status_label):
     print(files_list_response)
     for file in files_list_response:
         # TODO: convert file size to human readable
-        file_size = float(file["amountA"]) * (10**8) / 1024
+        file_size = sharelib.convert_size(float(file["amountA"]) * (10**8))
         files_table.insert("", "end", text=file["id"], values=[file["timestamp"], file["tagB"],
-                                                               file["senderpub"], ])
+                                                               file["senderpub"], file_size])
     update_status_label['text'] = "Last update: " + time.ctime() + " (auto-update each 30s)"
     root.after(30000, lambda: update_files_list(files_table, update_status_label))
 

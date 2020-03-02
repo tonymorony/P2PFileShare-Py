@@ -5,6 +5,7 @@ import slickrpc
 import shutil
 import time
 import threading
+import math
 from tkinter.filedialog import askopenfilename
 
 
@@ -120,3 +121,14 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
 
 def download_file(selected_file, rpc_proxy):
     print(rpc_proxy.DEX_subscribe(selected_file["values"][1], "0", "0", selected_file["values"][2]))
+
+
+# https://stackoverflow.com/questions/5194057/better-way-to-convert-file-sizes-in-python <3
+def convert_size(size_bytes):
+   if size_bytes == 0:
+       return "0B"
+   size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+   i = int(math.floor(math.log(size_bytes, 1024)))
+   p = math.pow(1024, i)
+   s = round(size_bytes / p, 2)
+   return "%s %s" % (s, size_name[i])
