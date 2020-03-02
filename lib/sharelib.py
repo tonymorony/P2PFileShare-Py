@@ -116,3 +116,7 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
     #  now it non-det because we not tracking uploading finishing
     # os.remove('/usr/local/dexp2p/'+file_name)
     # uploading_delta.set(0.0)
+
+
+def download_file(selected_file, rpc_proxy):
+    print(rpc_proxy.DEX_subscribe(selected_file["values"][1], "0", "0", selected_file["values"][2]))

@@ -37,8 +37,9 @@ def update_files_list(files_table, update_status_label):
     print(files_list_response)
     for file in files_list_response:
         # TODO: convert file size to human readable
+        file_size = float(file["amountA"]) * (10**8) / 1024
         files_table.insert("", "end", text=file["id"], values=[file["timestamp"], file["tagB"],
-                                                               file["senderpub"], file["amountA"]])
+                                                               file["senderpub"], ])
     update_status_label['text'] = "Last update: " + time.ctime() + " (auto-update each 30s)"
     root.after(30000, lambda: update_files_list(files_table, update_status_label))
 
@@ -61,6 +62,10 @@ file_upload_button = tk.Button(root, text="Upload selected file",
 force_list_refresh_button = tk.Button(root, text="Refresh now",
                                       command=lambda: update_files_list(files_list, last_updated_label))
 
+download_selected_file_button = tk.Button(root, text="Download selected file",
+                                          command=lambda: sharelib.download_file(files_list.item(files_list.focus()),
+                                                                                 chain_proxy))
+
 last_updated_label = tk.Label(root)
 
 # TODO: display the list of available to download files with download button + downloading progress bars
@@ -78,7 +83,7 @@ uploading_progress_bar.pack()
 last_updated_label.pack()
 force_list_refresh_button.pack()
 files_list.pack()
-
+download_selected_file_button.pack()
 
 update_progress_bar()
 update_files_list(files_list, last_updated_label)
