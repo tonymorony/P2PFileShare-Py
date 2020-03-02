@@ -3,6 +3,7 @@ from tkinter import ttk
 from lib import sharelib
 import threading
 import time
+import datetime
 
 # TODO: make it as a setting?
 ac_name = "FILET1"
@@ -38,7 +39,8 @@ def update_files_list(files_table, update_status_label):
     for file in files_list_response:
         # TODO: convert file size to human readable
         file_size = sharelib.convert_size(float(file["amountA"]) * (10**8))
-        files_table.insert("", "end", text=file["id"], values=[file["timestamp"], file["tagB"],
+        readable_date = datetime.datetime.fromtimestamp(file["timestamp"]).isoformat()
+        files_table.insert("", "end", text=file["id"], values=[readable_date, file["tagB"],
                                                                file["senderpub"], file_size])
     update_status_label['text'] = "Last update: " + time.ctime() + " (auto-update each 30s)"
     root.after(30000, lambda: update_files_list(files_table, update_status_label))
@@ -56,6 +58,7 @@ previous_uploading_progress.set(0.0)
 
 file_select_button = tk.Button(root, text="Choose file to upload",
                                command=lambda: sharelib.select_file(file_path_var))
+# TODO: print there selected file name for better UX
 file_upload_button = tk.Button(root, text="Upload selected file",
                                command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy,
                                                                     previous_uploading_progress))
