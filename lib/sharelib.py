@@ -112,6 +112,7 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
             shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
     print("Uploading file " + path_string)
     print(rpc_proxy.DEX_publish(file_name))
-    # TODO: removing file from temp dir after successful uploading - now it non-det because we not tracking uploading finishing
+    # TODO: removing file from temp dir after successful uploading -
+    #  now it non-det because we not tracking uploading finishing
     # os.remove('/usr/local/dexp2p/'+file_name)
     # uploading_delta.set(0.0)

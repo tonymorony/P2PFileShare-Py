@@ -24,7 +24,7 @@ def update_progress_bar():
     else:
         pass
         # print("no uploading at the moment")
-
+    # .after is something like a tkinter "threads"
     root.after(100, update_progress_bar)
 
 
@@ -43,16 +43,23 @@ previous_uploading_progress.set(0.0)
 file_select_button = tk.Button(root, text="Choose file to upload",
                                command=lambda: sharelib.select_file(file_path_var))
 file_upload_button = tk.Button(root, text="Upload selected file",
-                               command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy, previous_uploading_progress))
+                               command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy,
+                                                                    previous_uploading_progress))
 
 # TODO: display the list of available to download files with download button + downloading progress bars
+file_list_columns = ["Timestamp", "File name", "Publisher pubkey", "File size"]
+files_list = ttk.Treeview(root, columns=file_list_columns, selectmode="browse")
+files_list.heading('#0', text='File ID')
+for i in range(1, len(file_list_columns)+1):
+    files_list.heading("#"+str(i), text=file_list_columns[i-1])
+
 
 file_select_button.pack()
 file_upload_button.pack()
 
 uploading_progress_bar = ttk.Progressbar()
 uploading_progress_bar.pack()
-
+#files_list.pack()
 
 update_progress_bar()
 
