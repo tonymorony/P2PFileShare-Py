@@ -28,6 +28,19 @@ def update_progress_bar():
     root.after(100, update_progress_bar)
 
 
+def update_files_list(files_table):
+    print("updating files list")
+    files_table.delete(*files_table.get_children())
+    rpc_proxy = sharelib.def_credentials(ac_name)
+    files_list_response = rpc_proxy.DEX_list("0", "0", "files")["matches"]
+    print(files_list_response)
+    for file in files_list_response:
+        # TODO: convert file size to human readable
+        files_table.insert("", "end", text=file["id"], values=[file["timestamp"], file["tagB"],
+                                                               file["senderpub"], file["amountA"]])
+    root.after(1000, lambda: update_files_list(files_table))
+
+
 root = tk.Tk()
 root.title("DEXP2P fileshare GUI")
 root.geometry("1200x720")
@@ -59,9 +72,10 @@ file_upload_button.pack()
 
 uploading_progress_bar = ttk.Progressbar()
 uploading_progress_bar.pack()
-#files_list.pack()
+files_list.pack()
 
 update_progress_bar()
+update_files_list(files_list)
 
 # TODO: have to check if needed assetchain is started and assist user with it
 root.mainloop()
