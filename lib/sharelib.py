@@ -107,11 +107,11 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
             shutil.copyfile(path_string, os.getenv('APPDATA') + "/dexp2p/" + file_name)
     else:
         try:
-            shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
+            shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
         except FileNotFoundError:
             # TODO: it's quite tricky now if not script executor now owner of /usr/bin
-            os.mkdir("/usr/local/dexp2p/")
-            shutil.copy(path_string, '/usr/local/dexp2p/'+file_name)
+            os.mkdir('os.getenv('HOME')+'/dexp2p/')
+            shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
     print("Uploading file " + path_string)
     print(rpc_proxy.DEX_publish(file_name))
     # TODO: removing file from temp dir after successful uploading -
