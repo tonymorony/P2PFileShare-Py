@@ -12,13 +12,14 @@ chain_proxy = sharelib.def_credentials(ac_name)
 file_uploading_proxy = sharelib.def_credentials(ac_name, "uploading")
 
 
-def update_progress_bar():
+def update_progress_bar(progress_label):
     # separated rpc proxy because first one awaiting response from uploading command
     rpc_proxy = sharelib.def_credentials(ac_name)
     dex_stats = rpc_proxy.DEX_stats()
     # print(dex_stats)
     if "progress" in dex_stats.keys():
         uploading_progress = float(dex_stats["progress"])
+        progress_label["text"] = str(round(uploading_progress,2)) + " %"
         uploading_delta = uploading_progress - float(previous_uploading_progress.get())
         print(uploading_progress)
         uploading_progress_bar.step(uploading_delta)
@@ -27,7 +28,7 @@ def update_progress_bar():
         pass
         # print("no uploading at the moment")
     # .after is something like a tkinter "threads"
-    root.after(100, update_progress_bar)
+    root.after(100, lambda: update_progress_bar(progress_label))
 
 
 def update_files_list(files_table, update_status_label):
@@ -71,6 +72,8 @@ download_selected_file_button = tk.Button(root, text="Download selected file",
 
 selected_file_label = ttk.Label(text="Please select file to upload")
 
+uploading_progress_label = ttk.Label(text="")
+
 last_updated_label = tk.Label(root)
 
 # TODO: display the list of available to download files with download button + downloading progress bars
@@ -86,12 +89,13 @@ file_upload_button.pack()
 
 uploading_progress_bar = ttk.Progressbar()
 uploading_progress_bar.pack()
+uploading_progress_label.pack()
 last_updated_label.pack()
 force_list_refresh_button.pack()
 files_list.pack()
 download_selected_file_button.pack()
 
-update_progress_bar()
+update_progress_bar(uploading_progress_label)
 update_files_list(files_list, last_updated_label)
 
 # TODO: have to check if needed assetchain is started and assist user with it
