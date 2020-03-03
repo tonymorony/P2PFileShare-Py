@@ -57,7 +57,7 @@ previous_uploading_progress = tk.StringVar()
 previous_uploading_progress.set(0.0)
 
 file_select_button = tk.Button(root, text="Choose file to upload",
-                               command=lambda: sharelib.select_file(file_path_var))
+                               command=lambda: sharelib.select_file(file_path_var, selected_file_label))
 # TODO: print there selected file name for better UX
 file_upload_button = tk.Button(root, text="Upload selected file",
                                command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy,
@@ -69,6 +69,8 @@ download_selected_file_button = tk.Button(root, text="Download selected file",
                                           command=lambda: sharelib.download_file(files_list.item(files_list.focus()),
                                                                                  chain_proxy))
 
+selected_file_label = ttk.Label(text="Please select file to upload")
+
 last_updated_label = tk.Label(root)
 
 # TODO: display the list of available to download files with download button + downloading progress bars
@@ -79,6 +81,7 @@ for i in range(1, len(file_list_columns) + 1):
     files_list.heading("#" + str(i), text=file_list_columns[i - 1])
 
 file_select_button.pack()
+selected_file_label.pack()
 file_upload_button.pack()
 
 uploading_progress_bar = ttk.Progressbar()

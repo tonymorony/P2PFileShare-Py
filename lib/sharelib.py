@@ -83,11 +83,12 @@ def def_credentials(chain, mode="usual"):
         return FileUploadingProxy("http://%s:%s@127.0.0.1:%d" % (rpcuser, rpcpassword, int(rpcport)))
 
 
-def select_file(file_path_var):
+def select_file(file_path_var, selected_file_label):
     # TODO: check if filename is < 15 symbols
     filename = askopenfilename(initialdir="/", title="Select A File")
     print(filename)
     file_path_var.set(filename)
+    selected_file_label["text"] = filename
 
 
 # TODO: progress bar stop to update if user upload >1 file per session
@@ -125,10 +126,10 @@ def download_file(selected_file, rpc_proxy):
 
 # https://stackoverflow.com/questions/5194057/better-way-to-convert-file-sizes-in-python <3
 def convert_size(size_bytes):
-   if size_bytes == 0:
-       return "0B"
-   size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-   i = int(math.floor(math.log(size_bytes, 1024)))
-   p = math.pow(1024, i)
-   s = round(size_bytes / p, 2)
-   return "%s %s" % (s, size_name[i])
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
