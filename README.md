@@ -3,12 +3,12 @@ Simple GUI interface mockup to demonstrate Filesharing (based on dexp2p) Komodo 
 Dependencies:
 ```
 python 3.7+ is needed (because of this bug https://stackoverflow.com/questions/52440314/ttk-spinbox-missing-in-tkinter-ttk/52440947)
-sudo apt-get install python3-pip libgnutls28-dev python3-tk
-pip3 install setuptools wheel slick-bitcoinrpc
+sudo apt-get install python3-pip libgnutls28-dev python3-tk python3-pil python3-pil.imagetk
+pip3 install setuptools wheel slick-bitcoinrpc ttkthemes
 ```
 
 
-![screenshot](https://i.imgur.com/tXbwgRr.png)
+![screenshot](https://i.imgur.com/f3fE7Tb.png)
 
 ## To use:
 
