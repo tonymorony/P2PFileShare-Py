@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+import ttkthemes as tkT
 from lib import sharelib
+from PIL import ImageTk
 import threading
 import time
 import datetime
@@ -47,26 +49,32 @@ def update_files_list(files_table, update_status_label):
     root.after(30000, lambda: update_files_list(files_table, update_status_label))
 
 
-root = tk.Tk()
+root = tkT.ThemedTk()
+frame = ttk.Frame(root)
 root.title("DEXP2P fileshare GUI")
 root.geometry("1200x720")
 root.resizable(False, False)
+style = ttk.Style()
+
+root.set_theme('equilux', themebg=True)
+style.map("TButton", foreground=[("active", "darkslategray4")], background=[('pressed', 'darkslategray4')])
+style.configure("TButton", foreground="grey60", background="grey25")
 
 file_path_var = tk.StringVar()
 
 previous_uploading_progress = tk.StringVar()
 previous_uploading_progress.set(0.0)
 
-file_select_button = tk.Button(root, text="Choose file to upload",
+file_select_button = ttk.Button(frame, text="Choose file to upload",
                                command=lambda: sharelib.select_file(file_path_var, selected_file_label))
 # TODO: print there selected file name for better UX
-file_upload_button = tk.Button(root, text="Upload selected file",
+file_upload_button = ttk.Button(frame, text="Upload selected file",
                                command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy,
                                                                     previous_uploading_progress))
-force_list_refresh_button = tk.Button(root, text="Refresh now",
+force_list_refresh_button = ttk.Button(frame, text="Refresh now",
                                       command=lambda: update_files_list(files_list, last_updated_label))
 
-download_selected_file_button = tk.Button(root, text="Download selected file",
+download_selected_file_button = ttk.Button(frame, text="Download selected file",
                                           command=lambda: sharelib.download_file(files_list.item(files_list.focus()),
                                                                                  chain_proxy))
 
@@ -74,26 +82,35 @@ selected_file_label = ttk.Label(text="Please select file to upload")
 
 uploading_progress_label = ttk.Label(text="")
 
-last_updated_label = tk.Label(root)
+last_updated_label = ttk.Label(frame)
 
 # TODO: display the list of available to download files with download button + downloading progress bars
 file_list_columns = ["Timestamp", "File name", "Publisher pubkey", "File size"]
-files_list = ttk.Treeview(root, columns=file_list_columns, selectmode="browse")
+files_list = ttk.Treeview(frame, columns=file_list_columns, selectmode="browse")
 files_list.heading('#0', text='File ID')
 for i in range(1, len(file_list_columns) + 1):
     files_list.heading("#" + str(i), text=file_list_columns[i - 1])
 
-file_select_button.pack()
-selected_file_label.pack()
-file_upload_button.pack()
+root.columnconfigure(0, weight=1)
+frame.grid(row=0, column=0)
 
-uploading_progress_bar = ttk.Progressbar()
-uploading_progress_bar.pack()
-uploading_progress_label.pack()
-last_updated_label.pack()
-force_list_refresh_button.pack()
-files_list.pack()
-download_selected_file_button.pack()
+img = ImageTk.PhotoImage(file="kmd_logo_50.png")
+img_label = ttk.Label(frame, image=img)
+img_label.grid(row=0, column=0, pady=(25,25))
+file_select_button.grid(row=2, column=0, sticky="nw", padx=(10,10), pady=(10,10))
+file_upload_button.grid(row=2, column=0, sticky="ne", padx=(10,10), pady=(10,10))
+
+uploading_progress_label = ttk.Label(frame, text="")
+
+uploading_progress_bar = ttk.Progressbar(frame, orient="horizontal", mode="determinate")
+uploading_progress_bar.grid(row=4, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
+uploading_progress_label.grid(row=5, column=0, sticky="nsew", padx=(495,0))
+force_list_refresh_button.grid(row=6, column=0, sticky="nsew", padx=(10,10), pady=(5,5))
+last_updated_label.grid(row=7, column=0, padx=(10,10))
+
+files_list.grid(row=8, column=0, padx=(10,10))
+download_selected_file_button.grid(row=9, column=0, sticky="nsew", padx=(10,10), pady=(5,5))
+
 
 update_progress_bar(uploading_progress_label)
 update_files_list(files_list, last_updated_label)
