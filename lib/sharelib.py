@@ -109,7 +109,6 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
         try:
             shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
         except FileNotFoundError:
-            # TODO: it's quite tricky now if not script executor now owner of /usr/bin
             os.mkdir(os.getenv('HOME')+'/dexp2p/')
             shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
     print("Uploading file " + path_string)

@@ -40,7 +40,6 @@ def update_files_list(files_table, update_status_label):
     files_list_response = rpc_proxy.DEX_list("0", "0", "files")["matches"]
     print(files_list_response)
     for file in files_list_response:
-        # TODO: convert file size to human readable
         file_size = sharelib.convert_size(float(file["amountA"]) * (10**8))
         readable_date = datetime.datetime.fromtimestamp(file["timestamp"]).isoformat()
         files_table.insert("", "end", text=file["id"], values=[readable_date, file["tagB"],
@@ -67,7 +66,7 @@ previous_uploading_progress.set(0.0)
 
 file_select_button = ttk.Button(frame, text="Choose file to upload",
                                command=lambda: sharelib.select_file(file_path_var, selected_file_label))
-# TODO: print there selected file name for better UX
+
 file_upload_button = ttk.Button(frame, text="Upload selected file",
                                command=lambda: sharelib.upload_file(file_path_var, file_uploading_proxy,
                                                                     previous_uploading_progress))
@@ -84,7 +83,6 @@ uploading_progress_label = ttk.Label(text="")
 
 last_updated_label = ttk.Label(frame)
 
-# TODO: display the list of available to download files with download button + downloading progress bars
 file_list_columns = ["Timestamp", "File name", "Publisher pubkey", "File size"]
 files_list = ttk.Treeview(frame, columns=file_list_columns, selectmode="browse")
 files_list.heading('#0', text='File ID')
@@ -96,20 +94,21 @@ frame.grid(row=0, column=0)
 
 img = ImageTk.PhotoImage(file="kmd_logo_50.png")
 img_label = ttk.Label(frame, image=img)
-img_label.grid(row=0, column=0, pady=(25,25))
+img_label.grid(row=0, column=0, pady=(25,25), columnspan=2)
 file_select_button.grid(row=2, column=0, sticky="nw", padx=(10,10), pady=(10,10))
-file_upload_button.grid(row=2, column=0, sticky="ne", padx=(10,10), pady=(10,10))
+file_upload_button.grid(row=2, column=1, sticky="ne", padx=(10,10), pady=(10,10))
+# selected_file_label.grid(row=3, column=0, sticky="nw", padx=(10,10), pady=(10,10))
 
 uploading_progress_label = ttk.Label(frame, text="")
 
 uploading_progress_bar = ttk.Progressbar(frame, orient="horizontal", mode="determinate")
-uploading_progress_bar.grid(row=4, column=0, sticky="nsew", padx=(10,10), pady=(10,10))
-uploading_progress_label.grid(row=5, column=0, sticky="nsew", padx=(495,0))
-force_list_refresh_button.grid(row=6, column=0, sticky="nsew", padx=(10,10), pady=(5,5))
-last_updated_label.grid(row=7, column=0, padx=(10,10))
+uploading_progress_bar.grid(row=4, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(10,10))
+uploading_progress_label.grid(row=5, column=0, columnspan=2, sticky="nsew", padx=(495,0))
+force_list_refresh_button.grid(row=6, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(5,5))
+last_updated_label.grid(row=7, column=0, columnspan=2, padx=(10,10))
 
-files_list.grid(row=8, column=0, padx=(10,10))
-download_selected_file_button.grid(row=9, column=0, sticky="nsew", padx=(10,10), pady=(5,5))
+files_list.grid(row=8, column=0, columnspan=2, padx=(10,10))
+download_selected_file_button.grid(row=9, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(5,5))
 
 
 update_progress_bar(uploading_progress_label)
