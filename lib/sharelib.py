@@ -7,6 +7,7 @@ import math
 from tkinter.filedialog import askopenfilename
 import ttkthemes as tkT
 import tkinter as tk
+from tkinter import ttk
 import pprint
 
 
@@ -147,3 +148,40 @@ def convert_size(size_bytes):
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
+
+
+def connnection_popup():
+    connection_popup = tkT.ThemedTk()
+    ac_name_var = tk.StringVar()
+    connection_popup.geometry("400x400")
+    connection_popup.title("DEXP2P fileshare GUI")
+    connection_popup.set_theme('equilux', themebg=True)
+    ticker_input_label = ttk.Label(text="Please input chain ticker: ")
+    ticker_input_entry = ttk.Entry(connection_popup)
+    ticker_input_entry.insert(tk.END, 'FILET1')
+    try_to_connect_button = ttk.Button(connection_popup, text="Start GUI",
+                                       command= lambda: connect_gui_to_daemon(ticker_input_entry.get(),
+                                                                                      down_daemon_message_label, connection_popup, ac_name_var))
+    down_daemon_message_label = tk.Label(connection_popup, width=100,
+                                         height=10, font=("Helvetica", 16))
+    ticker_input_label.pack()
+    ticker_input_entry.pack()
+    try_to_connect_button.pack()
+    down_daemon_message_label.pack(padx=(10,10), pady=(50,50))
+    connection_popup.mainloop()
+    return ac_name_var.get()
+
+
+def connect_gui_to_daemon(ac_name_ticker, text_label, root_window, ac_name_app_var):
+    try:
+        chain_proxy = def_credentials(ac_name_ticker)
+        file_uploading_proxy = def_credentials(ac_name_ticker, "uploading")
+        print("Connected to " + ac_name_ticker)
+        ac_name_app_var.set(ac_name_ticker)
+        root_window.destroy()
+    except Exception as e:
+        print(e)
+        down_daemon_message = "Can't connect to " + ac_name_ticker + " daemon.\n Please start it with dexp2p param first!"
+        print(down_daemon_message)
+        text_label["text"] = down_daemon_message
+
