@@ -3,7 +3,6 @@ from tkinter import ttk
 import ttkthemes as tkT
 from lib import sharelib
 from PIL import ImageTk
-import threading
 import time
 import datetime
 

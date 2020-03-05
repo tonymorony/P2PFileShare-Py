@@ -3,10 +3,11 @@ import os
 import re
 import slickrpc
 import shutil
-import time
-import threading
 import math
 from tkinter.filedialog import askopenfilename
+import ttkthemes as tkT
+import tkinter as tk
+import pprint
 
 
 # just to set custom timeout
@@ -125,7 +126,15 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
 
 
 def download_file(selected_file, rpc_proxy):
-    print(rpc_proxy.DEX_subscribe(selected_file["values"][1], "0", "0", selected_file["values"][2]))
+    download_command_result = rpc_proxy.DEX_subscribe(selected_file["values"][1], "0", "0", selected_file["values"][2])
+    popup = tkT.ThemedTk()
+    popup.title("DEXP2P fileshare GUI")
+    popup.set_theme('equilux', themebg=True)
+    downloading_result_text = tk.Text(popup)
+    downloading_result_text.pack()
+    downloading_result_text.configure(state='normal')
+    downloading_result_text.replace("1.0", "100.0", pprint.pformat(download_command_result))
+    downloading_result_text.configure(state='disabled')
 
 
 # https://stackoverflow.com/questions/5194057/better-way-to-convert-file-sizes-in-python <3
