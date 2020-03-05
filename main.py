@@ -103,11 +103,11 @@ uploading_progress_label = ttk.Label(frame, text="")
 
 uploading_progress_bar = ttk.Progressbar(frame, orient="horizontal", mode="determinate")
 uploading_progress_bar.grid(row=4, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(10,10))
-uploading_progress_label.grid(row=5, column=1)
+uploading_progress_label.grid(row=5, column=1, pady=(5,5))
 force_list_refresh_button.grid(row=6, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(5,5))
 last_updated_label.grid(row=7, column=0, columnspan=3, padx=(10,10))
 
-files_list.grid(row=8, column=0, columnspan=3, padx=(10,10))
+files_list.grid(row=8, column=0, columnspan=3, padx=(10,10), pady=(10,10))
 download_selected_file_button.grid(row=9, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(5,5))
 
 
