@@ -77,7 +77,7 @@ download_selected_file_button = ttk.Button(frame, text="Download selected file",
                                           command=lambda: sharelib.download_file(files_list.item(files_list.focus()),
                                                                                  chain_proxy))
 
-selected_file_label = ttk.Label(text="Please select file to upload")
+selected_file_label = ttk.Label(frame, text="Please select file to upload")
 
 uploading_progress_label = ttk.Label(text="")
 
@@ -94,21 +94,21 @@ frame.grid(row=0, column=0)
 
 img = ImageTk.PhotoImage(file="kmd_logo_50.png")
 img_label = ttk.Label(frame, image=img)
-img_label.grid(row=0, column=0, pady=(25,25), columnspan=2)
+img_label.grid(row=0, column=1, pady=(25,25))
 file_select_button.grid(row=2, column=0, sticky="nw", padx=(10,10), pady=(10,10))
-file_upload_button.grid(row=2, column=1, sticky="ne", padx=(10,10), pady=(10,10))
-# selected_file_label.grid(row=3, column=0, sticky="nw", padx=(10,10), pady=(10,10))
+selected_file_label.grid(row=2, column=1)
+file_upload_button.grid(row=2, column=2, sticky="ne", padx=(10,10), pady=(10,10))
 
 uploading_progress_label = ttk.Label(frame, text="")
 
 uploading_progress_bar = ttk.Progressbar(frame, orient="horizontal", mode="determinate")
-uploading_progress_bar.grid(row=4, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(10,10))
-uploading_progress_label.grid(row=5, column=0, columnspan=2, sticky="nsew", padx=(495,0))
-force_list_refresh_button.grid(row=6, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(5,5))
-last_updated_label.grid(row=7, column=0, columnspan=2, padx=(10,10))
+uploading_progress_bar.grid(row=4, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(10,10))
+uploading_progress_label.grid(row=5, column=1)
+force_list_refresh_button.grid(row=6, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(5,5))
+last_updated_label.grid(row=7, column=0, columnspan=3, padx=(10,10))
 
-files_list.grid(row=8, column=0, columnspan=2, padx=(10,10))
-download_selected_file_button.grid(row=9, column=0, columnspan=2, sticky="nsew", padx=(10,10), pady=(5,5))
+files_list.grid(row=8, column=0, columnspan=3, padx=(10,10))
+download_selected_file_button.grid(row=9, column=0, columnspan=3, sticky="nsew", padx=(10,10), pady=(5,5))
 
 
 update_progress_bar(uploading_progress_label)
