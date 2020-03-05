@@ -1,5 +1,7 @@
 Simple GUI interface mockup to demonstrate Filesharing (based on dexp2p) Komodo technology.
 
+Special thanks to https://github.com/theblackmallard for great UX theme
+
 Dependencies:
 ```
 python 3.7+ is needed (because of this bug https://stackoverflow.com/questions/52440314/ttk-spinbox-missing-in-tkinter-ttk/52440947)
