@@ -14,12 +14,14 @@ pip3 install setuptools wheel slick-bitcoinrpc ttkthemes
 
 ## To use:
 
-### 1. Start FILET1 chain
+### 1. Start assetchain chain in dexp2p mode (with dexp2p param)
 
-At the moment it's just a test chain which hardcoded there https://github.com/tonymorony/P2PFileShare-Py/blob/master/main.py#L9 it might be non-actual already if I'll forgot to update this README
+For example testchain: 
 
 ```
 ./komodod -ac_name=FILET1 -dexp2p=2 -ac_supply=999999 -addnode=95.217.44.58
 ```
 
-### 2. Start program as `python3 main.py`
+You can also use dexp2p network with any existing assetchain! Just start it with dexp2p param. Beauty is that for dexp2p no blocks are needed - only peers connections matters.
+
+### 2. Start program as `python3 main.py` (or .\main.exe if you use precompiled bins)
