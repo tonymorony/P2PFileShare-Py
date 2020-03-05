@@ -9,8 +9,21 @@ import datetime
 # TODO: make it as a setting?
 ac_name = "FILET1"
 
-chain_proxy = sharelib.def_credentials(ac_name)
-file_uploading_proxy = sharelib.def_credentials(ac_name, "uploading")
+# Trying to connect
+try:
+    chain_proxy = sharelib.def_credentials(ac_name)
+    file_uploading_proxy = sharelib.def_credentials(ac_name, "uploading")
+except Exception as e:
+    print(e)
+    connection_popup = tkT.ThemedTk()
+    connection_popup.geometry("400x400")
+    connection_popup.title("DEXP2P fileshare GUI")
+    connection_popup.set_theme('equilux', themebg=True)
+    down_daemon_message = "Can't connect to " + ac_name + " daemon.\n Please start it with dexp2p param first!"
+    down_daemon_message_label = tk.Label(connection_popup, text=down_daemon_message, width=100,
+                                         height=10, font=("Helvetica", 16))
+    down_daemon_message_label.pack(padx=(10,10), pady=(50,50))
+    connection_popup.mainloop()
 
 
 def update_progress_bar(progress_label):
