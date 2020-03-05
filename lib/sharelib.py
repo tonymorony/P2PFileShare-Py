@@ -112,12 +112,16 @@ def upload_file(file_path, rpc_proxy, uploading_delta):
         except FileNotFoundError:
             os.mkdir(os.getenv('APPDATA') + "/dexp2p")
             shutil.copyfile(path_string, os.getenv('APPDATA') + "/dexp2p/" + file_name)
+        except shutil.SameFileError:
+            pass
     else:
         try:
             shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
         except FileNotFoundError:
             os.mkdir(os.getenv('HOME')+'/dexp2p/')
             shutil.copy(path_string, os.getenv('HOME')+'/dexp2p/'+file_name)
+        except shutil.SameFileError:
+            pass
     print("Uploading file " + path_string)
     print(rpc_proxy.DEX_publish(file_name))
     # TODO: removing file from temp dir after successful uploading -
