@@ -130,10 +130,11 @@ def download_file(selected_file, rpc_proxy):
     popup = tkT.ThemedTk()
     popup.title("DEXP2P fileshare GUI")
     popup.set_theme('equilux', themebg=True)
+    downloading_info_mesasge = "Downloaded files saving to the same folder with daemon as filiename.publisherpubkey\n"
     downloading_result_text = tk.Text(popup)
     downloading_result_text.pack()
     downloading_result_text.configure(state='normal')
-    downloading_result_text.replace("1.0", "100.0", pprint.pformat(download_command_result))
+    downloading_result_text.replace("1.0", "100.0", downloading_info_mesasge + pprint.pformat(download_command_result))
     downloading_result_text.configure(state='disabled')
 
 
