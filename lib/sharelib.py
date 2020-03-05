@@ -84,11 +84,16 @@ def def_credentials(chain, mode="usual"):
 
 
 def select_file(file_path_var, selected_file_label):
-    # TODO: check if filename is < 15 symbols
-    filename = askopenfilename(initialdir="/", title="Select A File")
-    print(filename)
-    file_path_var.set(filename)
-    selected_file_label["text"] = filename
+    path_to_file = askopenfilename(initialdir="/", title="Select A File")
+    file_name = path_to_file.split("/")[-1:][0]
+    print(path_to_file)
+    if len(file_name) < 16:
+        file_path_var.set(path_to_file)
+        selected_file_label["text"] = path_to_file
+    else:
+        error_message = "File name > 15 symbols. Please rename it or use different file."
+        file_path_var.set(error_message)
+        selected_file_label["text"] = error_message
 
 
 # TODO: progress bar stop to update if user upload >1 file per session
